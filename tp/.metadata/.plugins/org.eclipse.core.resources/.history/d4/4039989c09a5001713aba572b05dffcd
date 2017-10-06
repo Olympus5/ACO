@@ -1,0 +1,42 @@
+package tp1;
+
+public class CoursImpl1 implements Cours {
+	/**
+	 * 
+	 */
+	private Cours etudiant;
+	
+	private boolean verrou;
+	
+	public CoursImpl1() {
+		this.verrou = false;
+	}
+	
+	public CoursImpl1(Cours cours) {
+		this.etudiant = cours;
+		this.verrou = false;
+	}
+	
+	public Cours getCours() {
+		return this.etudiant;
+	}
+	
+	public void setEtudiant(Etudiant etudiant) {
+		if(this.verrou) {
+			this.verrou = true;
+			
+			if(this.etudiant != null) {
+				cours.setCours(null);
+			}
+			
+			
+			if(etudiant != null) {
+				cours.setCours(this);
+			}
+			
+			this.etudiant = etudiant;
+			
+			this.verrou = false;
+		}
+	
+}

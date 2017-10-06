@@ -1,0 +1,10 @@
+package tp1;
+
+public class EtudiantImpl1 implements Etudiant {
+	private Cours cours;
+	private boolean verrou;
+	
+	public EtudiantImpl1(Cours cours) {
+		this.cours = cours;
+	}
+}

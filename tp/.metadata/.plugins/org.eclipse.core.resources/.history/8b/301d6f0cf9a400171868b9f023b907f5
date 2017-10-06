@@ -1,0 +1,7 @@
+package tp1;
+
+import java.util.Collection;
+
+public class Cours {
+	Collection<Etudiant> etudiants;
+}

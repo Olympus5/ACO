@@ -1,0 +1,9 @@
+package tp1;
+
+import java.util.Collection;
+
+public interface Etudiant {
+
+	void setCours(CoursImpl1 coursImpl1);
+	
+}
