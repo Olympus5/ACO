@@ -1,0 +1,9 @@
+package receiver;
+
+import org.junit.runners.Suite.SuiteClasses;
+
+@RunWith(Coller.class)
+@SuiteClasses({})
+public class TestColler {
+
+}
