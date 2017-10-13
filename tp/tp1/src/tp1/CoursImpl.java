@@ -8,4 +8,16 @@ public class CoursImpl implements Cours {
 	public CoursImpl() {
 		
 	}
+
+	@Override
+	public Etudiant getEtudiant() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEtudiant(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+		
+	}
 }

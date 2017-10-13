@@ -9,4 +9,16 @@ public class EtudiantImpl implements Etudiant {
 	public EtudiantImpl(Collection<Cours> cours) {
 		this.cours = cours;
 	}
+
+	@Override
+	public Cours getCours() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCours(Cours cours) {
+		// TODO Auto-generated method stub
+		
+	}
 }
