@@ -10,5 +10,8 @@ public class IHM
 		super();
 	}
 
+	public String getText() {
+		return Buffer.getBuffer().toString();
+	}
 }
 

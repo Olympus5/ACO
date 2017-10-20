@@ -13,8 +13,5 @@ public class Copier implements Command
 	public void execute() {
 		this.moteur.copier();
 	}
-
-
-
 }
 

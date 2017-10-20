@@ -1,40 +1,32 @@
-/**
- * 
- */
 package receiver;
 
-/**
- * @author 13003060
- *
- */
 public class MoteurImpl implements Moteur {
 
 	@Override
 	public void coller() {
-		// TODO Stub de la méthode généré automatiquement
-
+		Buffer.write();
 	}
+	
 	@Override
 	public void copier() {
-		// TODO Stub de la méthode généré automatiquement
-
+		PressePapier.save(Buffer.getBuffer().toString());
 	}
+	
 	@Override
 	public void couper() {
-		// TODO Stub de la méthode généré automatiquement
-
+		PressePapier.save(Buffer.getBuffer().toString());
+		Buffer.clean();
 	}
 	
 	@Override
 	public void inserer(String parameter) {
-		// TODO Stub de la méthode généré automatiquement
-
+		Buffer.setBuffer(parameter);
+		Buffer.write();
 	}
 	
 	@Override
-	public void selectionner(int parameter, int parameter2) {
+	public void selectionner(int begin, int end) {
 		// TODO Stub de la méthode généré automatiquement
-
 	}
 
 }

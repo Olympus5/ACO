@@ -13,7 +13,7 @@ public class Buffer {
 	private static OutputStreamWriter osw;
 	private static BufferedWriter bw;
 	
-	public static void read() {
+	public static void readLine() {
 			try {
 				isr = new InputStreamReader(System.in);
 				br = new BufferedReader(isr);
@@ -37,6 +37,21 @@ public class Buffer {
 					}
 				}
 			}
+	}
+	
+	public static void read(int begin, int end) {
+		try {
+			char[] buf = new char[end - begin];
+			isr = new InputStreamReader(System.in);
+			br = new BufferedReader(isr);
+			
+			br.read(buf, begin, end - begin);
+			buffer = new StringBuffer(new String(buf));
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
 	}
 	
 	public static void write() {
@@ -71,5 +86,9 @@ public class Buffer {
 	
 	public static void setBuffer(String s) {
 		buffer = new StringBuffer(s);
+	}
+	
+	public static void clean() {
+		buffer = new StringBuffer("");
 	}
 }
