@@ -25,7 +25,6 @@ public class Inserer implements Command
 	 */
 	public Inserer(){
 		super();
-
 		this.moteur = new MoteurImpl();
 	}
 
