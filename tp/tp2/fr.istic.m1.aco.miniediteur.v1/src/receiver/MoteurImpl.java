@@ -1,10 +1,19 @@
 package receiver;
 
+import command.Selectionner;
+import invoker.Buffer;
+import invoker.PressePapier;
+
+/**
+ * MoteurImpl class
+ * @author Erwan IQUEL, Mathieu LECLEC'H
+ * @version 1.0
+ */
 public class MoteurImpl implements Moteur {
 
 	@Override
 	public void coller() {
-		Buffer.write();
+		Buffer.appendString(PressePapier.pp);
 	}
 	
 	@Override
@@ -14,19 +23,18 @@ public class MoteurImpl implements Moteur {
 	
 	@Override
 	public void couper() {
-		PressePapier.save(Buffer.getBuffer().toString());
+		PressePapier.save(Buffer.getSelection());
 		Buffer.clean();
 	}
 	
 	@Override
-	public void inserer(String parameter) {
-		Buffer.setBuffer(parameter);
-		Buffer.write();
+	public void inserer(String s) {
+		Buffer.appendString(s);
 	}
 	
 	@Override
 	public void selectionner(int begin, int end) {
-		// TODO Stub de la méthode généré automatiquement
+		Buffer.setSelection(begin, end);
 	}
 
 }
