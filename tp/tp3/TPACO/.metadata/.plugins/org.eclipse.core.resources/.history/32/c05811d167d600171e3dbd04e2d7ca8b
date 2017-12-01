@@ -1,0 +1,109 @@
+package receiver;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
+
+import memento.Memento;
+
+public class EnregistreurImpl implements Enregistreur {
+	
+	private Stack<Memento> commandStack = new Stack<>();
+	protected ArrayList<Memento> CommandsMacro = new ArrayList<Memento>();
+	private boolean EnregistrementOn;
+	private int position;
+	private Moteur moteur;
+	
+	public EnregistreurImpl(Moteur moteur) {
+		this.moteur=moteur;
+		this.setEnregistrementOn(false);
+		this.position=-1;
+	}
+
+	@Override 
+	public Stack<Memento> getCommands(){
+		return this.commandStack;
+	}
+	
+	@Override
+	public int getPosition() {
+		return this.position;
+	}
+	public void setPostion(int i) {
+		this.position = i;
+	}
+	
+	@Override 
+	public void enregistrerC(Memento m) {
+		 if(!(this.commandStack.size()<1)) {
+		    for(int i = this.commandStack.size()-1; i > this.position; i--)
+		    {
+		        this.commandStack.remove(i);
+		    }
+		 }
+		commandStack.push(m);
+		this.position++;
+	}
+	
+	@Override
+	public void enregistrerM(Memento m) {
+		if (EnregistrementOn)
+			CommandsMacro.add(m);
+	}
+
+	@Override
+	public void Demarrer() {
+		if (!CommandsMacro.isEmpty())
+			CommandsMacro.clear();
+		this.setEnregistrementOn(true);
+	}
+
+	@Override
+	public void Stopper() {
+		this.setEnregistrementOn(false);
+	}
+
+	@Override
+	public void Rejouer() {
+		if (!(this.isEnregistrementOn() && this.CommandsMacro.isEmpty())) {
+			for (Iterator<Memento> m = CommandsMacro.iterator(); m.hasNext();) {
+				Memento memento = m.next();
+				memento.execute();
+			}
+		}
+	}
+	
+	public boolean isEnregistrementOn() {
+		return EnregistrementOn;
+	}
+
+	private void setEnregistrementOn(boolean enregistrementOn) {
+		EnregistrementOn = enregistrementOn;
+	}
+
+	@Override
+	public void Undo() {
+		this.moteur.Reinit();
+		if (! this.commandStack.isEmpty() && ((this.position) >  0)) {
+			this.position--;
+			for (int i = 0; i <= this.position;i++) {
+				Memento memento = commandStack.get(i);
+				memento.execute();
+			}
+		}
+		
+	}
+
+	@Override
+	public void Redo() {
+		
+		if (!this.commandStack.isEmpty() && ((this.position) <  this.commandStack.size())) {
+			this.moteur.Reinit();
+			this.position++;
+			for (int i = 0; i < this.position;i++) {
+				Memento memento = this.commandStack.get(i);
+				memento.execute();
+			}
+		}
+	}
+}

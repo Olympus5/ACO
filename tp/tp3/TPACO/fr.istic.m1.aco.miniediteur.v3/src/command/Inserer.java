@@ -1,0 +1,54 @@
+package command;
+
+import java.io.IOException;
+
+import invoker.Editeur;
+import memento.Memento;
+import memento.MementoInserer;
+import receiver.Enregistreur;
+import receiver.Moteur;
+
+/**
+ * Inserer class
+ * 
+ * @author Erwan IQUEL, Mathieu LECLEC'H
+ * @version 1.0
+ */
+public class Inserer implements Command {
+
+	private final Moteur moteur;
+	private final Enregistreur enregistreur;
+	private final Editeur ihm;
+	private String text;
+	private Memento m;
+	/**
+	 * Create an instance of Inserer object
+	 * @throws IOException 
+	 */
+	public Inserer(Moteur moteur, Editeur ihm , Enregistreur enregistreur) {	
+		this.moteur = moteur;
+		this.ihm = ihm;
+		this.enregistreur=enregistreur;
+		
+	}
+
+	@Override
+	public void execute() throws Exception {
+		this.text= this.ihm.getText();
+		this.setMemento(new MementoInserer(moteur,this.text));
+		this.enregistreur.enregistrerM(this.getMemento());
+		this.enregistreur.enregistrerC(this.getMemento());
+		this.moteur.inserer(this.text);
+	}
+
+	@Override
+	public Memento getMemento() {
+		return this.m;
+	}
+
+	@Override
+	public void setMemento(Memento m) {
+		this.m=m;
+		
+	}
+}

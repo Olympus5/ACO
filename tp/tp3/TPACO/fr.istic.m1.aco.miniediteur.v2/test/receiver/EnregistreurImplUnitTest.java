@@ -1,0 +1,79 @@
+package receiver;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import bean.Selection;
+import memento.Memento;
+import memento.MementoColler;
+import memento.MementoCopier;
+import memento.MementoInserer;
+import memento.MementoSelectionner;
+
+public class EnregistreurImplUnitTest {
+	private  EnregistreurImpl enregistreur;
+	private MoteurImpl moteur;
+	
+	@Before
+	public void setup() {
+		
+		this.moteur = new MoteurImpl();
+		this.enregistreur = new EnregistreurImpl();
+	}
+	
+	@Test
+	public void Rejouer() {
+		Memento mementoInserer= new MementoInserer(moteur,"coucou");
+		Memento mementoSelection = new MementoSelectionner(moteur,new Selection(0,6));
+		Memento mementoCopier = new MementoCopier(moteur);
+		Memento mementoSelection2 = new MementoSelectionner(moteur,new Selection(6,6));
+		Memento mementoColler = new MementoColler(moteur);
+		this.enregistreur.CommandsMacro.add(mementoInserer);
+		this.enregistreur.CommandsMacro.add(mementoSelection);
+		this.enregistreur.CommandsMacro.add(mementoCopier);
+		this.enregistreur.CommandsMacro.add(mementoSelection2);
+		this.enregistreur.CommandsMacro.add(mementoColler);
+		this.enregistreur.Stopper();
+		this.enregistreur.Rejouer();
+		assertThat(this.moteur.buffer.toString()).isEqualTo("coucoucoucou");
+	}
+	
+	@Test
+	public void Demarrer() {
+		this.enregistreur.Demarrer();
+		assertThat(this.enregistreur.isEnregistrementOn()).isEqualTo(true);
+	}
+	
+	@Test
+	public void Stopper() {
+		Demarrer();
+		this.enregistreur.Stopper();
+		assertThat(this.enregistreur.isEnregistrementOn()).isEqualTo(false);
+	}
+	
+	@Test
+	public void EnregistrerWhenIsActive() {
+		Memento memento = new MementoColler(this.moteur);
+		this.enregistreur.Demarrer();
+		this.enregistreur.enregistrer(memento);
+		System.out.println(this.enregistreur.CommandsMacro);
+		assertThat(this.enregistreur.CommandsMacro).contains(memento);
+	}
+	
+	@Test
+	public void EnregistrerWhenIsNotActive() {
+		Memento memento = new MementoColler(this.moteur);
+		this.enregistreur.enregistrer(memento);
+		System.out.println(this.enregistreur.CommandsMacro);
+		assertThat(this.enregistreur.CommandsMacro).doesNotContain(memento);
+	}
+	
+	
+	
+	
+}

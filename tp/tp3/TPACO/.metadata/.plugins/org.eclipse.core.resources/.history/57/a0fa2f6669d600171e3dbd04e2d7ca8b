@@ -1,0 +1,120 @@
+package invoker;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import org.assertj.core.util.diff.InsertDelta;
+
+import command.*;
+import receiver.Enregistreur;
+import receiver.EnregistreurImpl;
+import receiver.Moteur;
+import receiver.MoteurImpl;
+
+/**
+ * Editeur class
+ * 
+ * @author Erwan IQUEL, Mathieu LECLEC'H
+ * @version 1.0
+ */
+public class Editeur2 {
+	static BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+
+	public static void main(String[] args) throws Exception {
+		final Moteur moteur = new MoteurImpl();
+		final Editeur ihm = new Editeur();
+		final Enregistreur enregistreur = new EnregistreurImpl();
+		final Command coller = new Coller(moteur, enregistreur);
+		final Command copier = new Copier(moteur, enregistreur);
+		final Command selectionner = new Selectionner(moteur, ihm, enregistreur);
+		final Command couper = new Couper(moteur, enregistreur);
+		final Command inserer = new Inserer(moteur, ihm, enregistreur);
+		final Command delete = new Delete(moteur, enregistreur);
+		final Command demarrer = new Demarrer(enregistreur);
+		final Command stopper = new Stopper(enregistreur);
+		final Command rejouer = new Rejouer(enregistreur);
+		String inputLine;
+		char commandLetter;
+
+		System.out.println("Welcome to MiniEditor V2.0");
+		System.out.println("-----------------------------------------------------------");
+
+		System.out.println("Enter command (I/S/C/X/V/D/R/E/P/Z/Y/Q) > ");
+		try {
+			inputLine = keyboard.readLine();
+		} catch (IOException e) {
+			System.out.println("Unable to read standard input");
+			inputLine = "W";
+		}
+		if (inputLine.isEmpty()) {
+			commandLetter = '0';
+		} else {
+			commandLetter = Character.toUpperCase(inputLine.charAt(0));
+		}
+		while (commandLetter != 'Q') /* Quit */
+		{
+			switch (commandLetter) {
+			case '0':
+				break;
+			case 'I': /* Insert */
+				ihm.execute(inserer);
+				break;
+			case 'S': /* Select */
+				ihm.execute(selectionner);
+				break;
+			case 'C': /* Copy */
+				ihm.execute(copier);
+				break;
+			case 'X': /* cut */
+				ihm.execute(couper);
+				break;
+			case 'V': /* paste */
+				ihm.execute(coller);
+				break;
+			case 'D': /* Delete */
+				ihm.execute(delete);
+				break;
+			case 'R': /* start Recording */
+				ihm.execute(demarrer);
+				break;
+			case 'E': /* End recording */
+				ihm.execute(stopper);
+				break;
+			case 'P': /* Play recording */
+				ihm.execute(rejouer);
+				break;
+			case 'Z': /* undo */
+				// Insert your code here (V3)
+				break;
+			case 'Y': /* redo */
+				// Insert your code here (V3)
+				break;
+			default:
+				System.out.println("Unrecognized command, please try again:");
+				break;
+			}
+			System.out.println("-----------------------------------------------------");
+			System.out.println("[" + moteur.getBuffer() + "]");
+			System.out.println("-----------------------------------------------------");
+			System.out.println("[" + moteur.getSelection().toString() + "]");
+			System.out.println("-----------------------------------------------------");
+			System.out.println("[" + moteur.getPressePapier() + "]");
+			System.out.println("-----------------------------------------------------");
+
+			System.out.println("Enter command (I/S/C/X/V/D/R/E/P/Z/Y/Q) > ");
+			try {
+				inputLine = keyboard.readLine();
+			} catch (IOException e) {
+				System.out.println("Unable to read standard input");
+				inputLine = "W";
+			}
+			if (inputLine.isEmpty()) {
+				commandLetter = '0';
+			} else {
+				commandLetter = Character.toUpperCase(inputLine.charAt(0));
+			}
+		}
+		System.out.println("Goodbye");
+	}
+}
